@@ -1,6 +1,7 @@
 def bank(x, y):
-    total = x # начальная сумма вклада
-    for i in range(y):
-        total += total * 0.10 # увеличиваем сумму вклада на 10% каждый год
-    return total
-print(bank(1000, 5))
+    for i in range(1, y+1):
+        count = x + (x/10)
+        x = count
+    print(round(count, 4))
+
+bank(1000, 7)
