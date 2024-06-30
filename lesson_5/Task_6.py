@@ -10,6 +10,6 @@ input_name = firefox.find_element(By.ID, "username").send_keys("tomsmith")
 input_pass = chrome.find_element(
     By.ID, "password").send_keys("SuperSecretPassword!")
 button = chrome.find_element(By.TAG_NAME, "button").click()
-button = firefox.find_element(By.TAG_NAME, "button").click()
+bts = firefox.find_element(By.TAG_NAME, "button").click()
 chrome.quit()
 firefox.quit()

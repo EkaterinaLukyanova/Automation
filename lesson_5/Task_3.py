@@ -10,9 +10,10 @@ try:
     for a in range(3):
         blue_button = chrome.find_element(
             "xpath", "//button[contains(concat(' ', normalize-space(@class), ' '), ' btn-primary ')]")
-        blue_button = firefox.find_element(
+        bts = firefox.find_element(
             "xpath", "//button[contains(concat(' ', normalize-space(@class), ' '), ' btn-primary ')]")
         blue_button.click()
+        bts.click()
         sleep(1)
         chrome.switch_to.alert.accept()
         firefox.switch_to.alert.accept()

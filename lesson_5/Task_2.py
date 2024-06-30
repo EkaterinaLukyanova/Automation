@@ -19,7 +19,7 @@ try:
             "xpath", '//button[text()="Button with Dynamic ID"]').click()
         count = count + 1
         sleep(2)
-        print(count)
+        print(f"Клик выполнен ({_ +1}/3)")
 
 except Exception as ex:
     print(ex)

@@ -9,8 +9,9 @@ try:
    chrome.get("https://the-internet.herokuapp.com/entry_ad")
    firefox.get("https://the-internet.herokuapp.com/entry_ad")
    wait = WebDriverWait (chrome, 10)
-   wait = WebDriverWait (firefox, 10)
+   bts= WebDriverWait (firefox, 10)
    close_button = wait.until(ES.element_to_be_clickable((By.CSS_SELECTOR, "modal-footer")))
+   close_button = bts.until(ES.element_to_be_clickable((By.CSS_SELECTOR, "modal-footer")))
    close_button.click()
 
 except Exception as ex:
