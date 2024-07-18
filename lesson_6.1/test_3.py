@@ -1,46 +1,36 @@
-import pytest
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from data import *
 
-@pytest.fixture(scope="session")
-def browser():
-    driver = webdriver.Chrome()
-    yield driver
-    driver.quit()
+def test_shop_form(chrome_browser):
+    chrome_browser.get(URL_3)
 
-def test_purchase(browser):
-    browser.get("https://www.saucedemo.com/")
-    username_input = browser.find_element(By.CSS_SELECTOR, "#user-name")
-    password_input = browser.find_element(By.CSS_SELECTOR, "#password")
-    login_button = browser.find_element(By.CSS_SELECTOR, 'input[type="submit"]')
+    #Ввод логина и пароля
+    chrome_browser.find_element(By.ID, "user-name").send_keys("standard_user")
+    chrome_browser.find_element(By.ID, "password").send_keys("secret_sauce")
+    chrome_browser.find_element(By.ID, "login-button").click()
 
-    username_input.send_keys("standart_user")
-    password_input.send_keys("secret_sause")
+    #Добавление товара в корзину
+    add_to_cart_buttons = [
+        (By.ID, "add-to-cart-sauce-labs-backpack"),
+        (By.ID, "add-to-cart-sauce-labs-bolt-t-shirt"),
+        (By.ID, "add-to-cart-sauce-labs-onesie")
+    ]
+    for button in add_to_cart_buttons:
+        chrome_browser.find_element(*button).click()
 
-    login_button.click()
+    #Переход к корзине и оформление товара
+    chrome_browser.find_element(By.ID, "shopping_cart_container").click()
+    chrome_browser.find_element(By.ID, "checkout").click()
 
-    items_to_add = ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt", "Sauce Labs Onesie"]
-    for item in items_to_add:
-        add_to_cart_button = browser.find_element_by_xpath(f"//div[text()='{item}']/following-sibling::button")
-        add_to_cart_button.click()
+    #Ввод данных о покупателе
+    chrome_browser.find_element(By.ID, "first-name").send_keys("Kate")
+    chrome_browser.find_element(By.ID, "last-name").send_keys("Len")
+    chrome_browser.find_element(By.ID, "postal-code").send_keys("123456")
+    chrome_browser.find_element(By.ID, "continue").click()
 
-        cart_icon = browser.find_element_by_css_selector(".shopping_cart_link")
-        cart_icon.click()
-
-        checkout_button = browser.find_element_by_css_selector(".checkout-button")
-        checkout_button.click()
-
-        first_name_input = browser.find_element_by_id('first-name')
-        last_name_input = browser.find_element_by_id('last-name')
-        postal_code_input = browser.find_element_by_id('postal-code')
-
-        first_name_input.sendkeys('Kate')
-        last_name_input.sendkeys('Len')
-        postal_code_input.sendkeys('12345')
-
-        continue_button = browser.find_element_by_class_name('btn_primary.cart_checkout_link')
-        continue_button.click()
-
-        total_cost = browser.find_element_by_class_name('.summary_total_label').get.text()
-        assert total_cost == "$58,29"
-
+    #Получение и вывод общей стоимости заказа
+    total_price = chrome_browser.find_element(By.CLASS_NAME, 'summary_total_label')
+    total = total_price.text.strip().replace("Total: $", "")
+    expected_total = "58.29"
+    assert total == expected_total
+ 
