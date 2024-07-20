@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from data import *
 from time import sleep
 
+
 def test_data_types_form(chrome_browser: WebDriver):
     chrome_browser.get(URL_1)
     form_data = {
