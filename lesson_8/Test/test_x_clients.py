@@ -38,17 +38,17 @@ def test_add_employer(get_token):
         'birthdate': '2024-07-25T10:48:24.769Z',
         'isActive': 'true'
     }
-    new_employer_id = (employer.add_newemployee(token, body_employer))['id']
+    just_employer = employer.add_newemployee(token, body_employer)['id']
     """Удостоверяемся, что ID нового сотрудника не пустой"""
-    assert new_employer_id is not None
+    assert just_employer is not None
     """Проверяем, что ID нового сотрудника состоит только из цифр"""
-    assert str(new_employer_id).isdigit()
+    assert str(just_employer).isdigit()
 
     """Получаем инфо о добавлении нового сторудника"""
-    info = employer.get_info(new_employer_id)
+    info = employer.get_info(just_employer)
     """Сравниваем ID сотрудника из полученной информации
       с ID сотрудника, только созданного"""
-    assert info.json()['id'] == new_employer_id
+    assert info.json()['id'] == just_employer
     """Проверяем, что код ответа == 200"""
     assert info.status_code == 200
 
@@ -82,7 +82,7 @@ def test_add_employer_without_body(get_token):
     com_id = company.last_active_company_id()
     body_employer = {}
     new_employer = employer.add_newemployee(token, body_employer)
-    assert new_employer['message'] == 'Internal Server error'
+    assert new_employer['message'] == 'Internal server error'
 
 
 def test_get_employer():
@@ -102,7 +102,7 @@ def test_get_list_employers_invalid_company_id():
         employer.get_list('')
     except TypeError as e:
         assert str(
-            e) == "Employer.get_list() missing 1 required positional argument:'company_id'"
+            e) == "Employer.get_list() missing 1 required positional argument: 'company_id'"
 
 
 """Проверка обязательного поля 'ID сотрудника' в
@@ -114,7 +114,7 @@ def test_get_info_new_employers_missing_employer_id():
         employer.get_info()
     except TypeError as e:
         assert str(
-            e) == "Employer.get_info() missing 1 required positional argument:'employee_id'"
+            e) == "Employer.get_info() missing 1 required positional argument: 'employee_id'"
 
 
 def test_change_employer_info(get_token):

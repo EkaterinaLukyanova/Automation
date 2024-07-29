@@ -2,7 +2,7 @@ import requests
 import json
 from lesson_8.constants import URL
 
-path = '/employee'
+path = '/employee/'
 
 
 class Company:
