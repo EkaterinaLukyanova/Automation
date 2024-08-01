@@ -1,6 +1,6 @@
 import pytest
-from lesson_9.Pages.Employee import Employer
-from lesson_9.Pages.DataBase import DataBase
+from Employee import Employer
+from DataBase import DataBase
 
 api = Employer("https://x-clients-be.onrender.com/")
 db = DataBase(
@@ -15,7 +15,7 @@ db = DataBase(
 # Получаем список сотрудников из БД и АПИ, после чего сравниваем их
 def test_get_list_of_employers():
     # БД - Создаем компанию
-    db.create_compfny('Moscow2024', 'cool_company')
+    db.create_company('Moscow2024', 'cool_company')
     # БД - Получаем ID последней созданной компании
     max_id = db.last_company_id()
     # БД - добавляем сотрудника в компанию
@@ -56,7 +56,7 @@ def test_add_new_employer():
 
 
 # Сравниваем инф о сотруднике полученную по
-# API с инф указанной при создании сотрудника в БД
+#API с инф указанной при создании сотрудника в БД
 def test_assertion_data():
     db.create_company('Employer get id company', 'new')
     max_id = db.last_company_id()

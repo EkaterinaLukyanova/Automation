@@ -1,6 +1,6 @@
 import requests
 import json
-from lesson_9.Test.conftest import url
+from conftest import url
 
 path = '/employee/'
 
