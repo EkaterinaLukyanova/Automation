@@ -39,19 +39,19 @@ def test_get_list_of_employers():
 @allure.description("Добавляем сотрудника в БД и сравниваем с АПИ имя, статус и фамилию")
 @allure.feature('Test_2')
 def test_add_new_employer():
-    db.create_company('MOSCOW2025', 'beautiful')
-    max_id = db.last_company_id()
-    db.create_employer(max_id, "Ivan", "Ivanov", 89779660001)
+    db.crdb.create_company_db('MOSCOW2025', 'beautiful')
+    max_id = db.get_max_id()
+    db.db_create_employer(max_id, "Ivan", "Ivanov", 89779660001)
     response = api.get_list_employers(max_id)
     employer_id = response[0] ["id"]
     """Сравниваем ID компании"""
     assert response[0]["companyId"] == max_id
     """Сравниваем имя сотрудника с заданным"""
-    assert response[0]["firstName"] == "Evgen"
+    assert response[0]["firstName"] == "Ivan"
     """Удостоверяемся что статус сотрудника - True"""
     assert response[0]["isActive"] == True
     """Сравниваем фамилию сотрудника с заданной"""
-    assert response[0]["lastName"] == "Voronov"
+    assert response[0]["lastName"] == "Ivanov"
     """БД - удаляем созданого сотрудника"""
     db.db_delete_employer(employer_id)
     """БД - удаляем последнюю созданную компанию"""
